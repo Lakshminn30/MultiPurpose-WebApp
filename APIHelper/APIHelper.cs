@@ -9,7 +9,7 @@ namespace APIHelperModule
     {
         private readonly HttpClient _httpClient;
 
-        public APIHelper(HttpClient httpClient)z    
+        public APIHelper(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
