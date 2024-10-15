@@ -1,0 +1,119 @@
+﻿@using Newtonsoft.Json;
+@model NewsFeederHelper.Model.NewsFeedViewModel
+
+@{
+    ViewData["Title"] = "NewsFeed";
+}
+<head>
+    <style>
+        .news:hover {
+            background-color: whitesmoke;
+            border: 2.4px solid blue;
+        }
+
+        .news {
+            width: 1200px;
+            height: 305px;
+            border: 2px solid blue;
+            border-radius: 10px;
+        }
+        img {
+            height: 300px;
+            width: 300px;
+            float: right;
+            border-radius: 8px;
+        }
+
+        p, h4 {
+            padding-left: 5px;
+        }
+
+        select, #generateFeed {
+            width: 200px;
+            height: 40px;
+        }
+
+        #newsContent:hover
+        {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body style="background-color: lavenderblush">
+    <div>
+        @Html.DropDownListFor(x => x.NewsCategory, new SelectList(Model.NewsCategories))
+        @Html.DropDownListFor(x => x.Country, new SelectList(Model.Countries))
+        <button id="generateFeed" style="background-color: lightgreen;">Feed My Curiosity!!</button>
+    </div>
+    <hr />
+    <div id="news-feed">
+    </div>
+</body>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+         
+
+        function reLocate(url)
+        {
+            window.location.href = url;
+        }
+        
+        function PrepareNewsFeed(articles) {
+            $("#news-feed").html('')
+
+            for (let i = 0; i < articles.length; i++) {
+                if (articles[i].author != null) {
+                    let newsDiv = "<div class='news'>"
+                    newsDiv = newsDiv + "<img src='" + articles[i].urlToImage + "' alt='....Loading'/>"
+                    newsDiv = newsDiv + "<p><h4>"+ articles[i].title + "</h4></p><br/>"
+                    newsDiv = newsDiv + "<p id='newsContent' class='classContent' onclick= reLocate('" + articles[i].url + "')>"+ articles[i].content + " </p><br><br>"
+                    newsDiv = newsDiv + "<p style='color: blue;'>Source: " + articles[i].source.name + "</p>"
+                    newsDiv = newsDiv + "</div></br>"
+                    $("#news-feed").append(newsDiv)
+                }
+            }
+        }
+
+        function generateFeed()
+        {
+            let newsCategoryValue = $('#NewsCategory').val()
+            let countryValue = $('#Country').val()
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "NewsFeedForGivenCategoryAndCountry",
+                    data: { category: newsCategoryValue, country: countryValue },
+                    success: function (response) {
+                        PrepareNewsFeed(response.newsFeed.articles)
+                        console.log(response.newsFeed.articles)
+                    },
+                    error: function (response) {
+                        console.log(response)
+                    }
+                }
+            )
+        }
+
+        $("#generateFeed").click(function()
+        {
+            console.debug()
+            generateFeed()
+        })
+
+        $(document).ready(function () {
+            generateFeed()
+            setTimeout(() => {
+                generateFeed()
+            }, 100)
+        })
+
+
+    </script>
+}

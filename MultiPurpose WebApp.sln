@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiPurpose WebApp", "MultiPurpose WebApp.csproj", "{FB5763F1-7ACE-4B78-B623-572DB7730233}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIHelperModule", "..\APIHelper\APIHelperModule.csproj", "{228B7727-C29E-4CAA-B1CE-B163F9029518}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrencyConverterHelper", "..\CurrencyConverter\CurrencyConverterHelper.csproj", "{B2429710-A87A-4CBD-A6E8-1222263B567A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BD2AEC23-4E28-475A-8014-70261C6A190A} = {BD2AEC23-4E28-475A-8014-70261C6A190A}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonHelper", "..\CommonHelper\CommonHelper.csproj", "{BD2AEC23-4E28-475A-8014-70261C6A190A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsFeederHelper", "..\NewsFeeder\NewsFeederHelper.csproj", "{E09E267F-A942-4745-8ED0-8CFE94F6825C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB5763F1-7ACE-4B78-B623-572DB7730233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB5763F1-7ACE-4B78-B623-572DB7730233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB5763F1-7ACE-4B78-B623-572DB7730233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB5763F1-7ACE-4B78-B623-572DB7730233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{228B7727-C29E-4CAA-B1CE-B163F9029518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{228B7727-C29E-4CAA-B1CE-B163F9029518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{228B7727-C29E-4CAA-B1CE-B163F9029518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{228B7727-C29E-4CAA-B1CE-B163F9029518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2429710-A87A-4CBD-A6E8-1222263B567A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2429710-A87A-4CBD-A6E8-1222263B567A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2429710-A87A-4CBD-A6E8-1222263B567A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2429710-A87A-4CBD-A6E8-1222263B567A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD2AEC23-4E28-475A-8014-70261C6A190A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2AEC23-4E28-475A-8014-70261C6A190A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD2AEC23-4E28-475A-8014-70261C6A190A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD2AEC23-4E28-475A-8014-70261C6A190A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E09E267F-A942-4745-8ED0-8CFE94F6825C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09E267F-A942-4745-8ED0-8CFE94F6825C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09E267F-A942-4745-8ED0-8CFE94F6825C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09E267F-A942-4745-8ED0-8CFE94F6825C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C19DE6B-5C7D-4A1A-AE23-CD91C770835A}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,139 @@
+﻿@using Newtonsoft.Json;
+@model CurrencyConverterHelper.Model.FromCurrencyToCurrency
+
+@{
+    ViewData["Title"] = "CurrencyConvertor";
+}
+<style>
+
+    input[type='text'] {
+        width: 220px;
+    }
+
+    select, h5 {
+        margin-left: 10px;
+    }
+
+    body {
+        background-color: lavenderblush;
+    }
+
+    .decorate {
+        width: 500px;
+        height: 500px;
+        background-color: whitesmoke;
+        margin-left: 400px;
+        padding-top: 100px;
+        border-radius: 25px;
+        border-block-color: black;
+    }
+</style>
+<marquee direction="right" style="color: darkslateblue;"> <h6>Use me for real time currency conversion!!</h6></marquee>
+<body>
+    <br />
+    <br />
+    <div class="row decorate">
+        <div class="col-md-8">
+            <div>
+                @Html.DropDownListFor(x => x.FromCurrencyCode, new SelectList(Model.AllCurrencyCode))
+                <input type="text" id="fromCurrencyInput" />
+                <br />
+                <br />
+                @Html.DropDownListFor(x => x.ToCurrencyCode, new SelectList(Model.AllCurrencyCode))
+                <input type="text" id="toCurrencyOutput" readonly style="background-color: aliceblue"/>
+                <br/>
+                <br/>
+                <br/>
+                <h5 id="note"></h5>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        var baseCurrencyRates = null
+        var currencyFullFrom = null
+        
+
+        function setNote(fromCurrencyCode, toCurrencyCode) {
+            //https://flagsapi.com/GB/flat/32.png
+            let image_fromCurrencyCode = fromCurrencyCode.substring(0,2)
+            let image_toCurrencyCode   = toCurrencyCode.substring(0, 2)
+            let image_fromCurrencyFlag = "<img src= 'https://flagsapi.com/" + image_fromCurrencyCode + "/flat/32.png'/>";
+            let image_toCurrencyFlag = "<img src= 'https://flagsapi.com/" + image_toCurrencyCode + "/flat/32.png'/>";
+
+            let note = image_fromCurrencyFlag + " 1 " + currencyFullFrom[fromCurrencyCode] + " = "+  image_toCurrencyFlag +" " + baseCurrencyRates[toCurrencyCode] + " " + currencyFullFrom[toCurrencyCode]
+            $("#note").html(note)
+        }
+        function getBaseCurrencyRates() {
+            let value = $("#FromCurrencyCode").val()
+            let toCurrencyCode = $("#ToCurrencyCode").val()
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "CurrenciesForBaseCurrency",
+                    data: { currencyCode: value },
+                    success: function (response) {
+                        baseCurrencyRates = response.baseCurrency.rates
+                        setNote(value, toCurrencyCode)
+                    },
+                    error: function (response) {
+                        console.log(response)
+                    }
+                }
+            )
+        }
+
+        $("#FromCurrencyCode").change(function () {
+            clearInputValue()
+            getBaseCurrencyRates()
+        })
+
+        $("#ToCurrencyCode").change(function () {
+            let fromCurrencyCode = $("#FromCurrencyCode").val()
+            let toCurrencyCode = $("#ToCurrencyCode").val()
+            clearInputValue()
+            setNote(fromCurrencyCode, toCurrencyCode)
+        })
+
+        function clearInputValue() {
+            $('input[type="text"]').each(function () {
+                $(this).val('');
+            })
+        }
+
+        $("#fromCurrencyInput").keyup(function () {
+            let inputValue = $("#fromCurrencyInput").val()
+            let toCurrencyCode = $("#ToCurrencyCode").val()
+            var convertedvalue = baseCurrencyRates[toCurrencyCode] * inputValue
+            $("#toCurrencyOutput").val(convertedvalue)
+        })
+
+        $(document).ready(function () {
+        currencyFullFrom = @Html.Raw(JsonConvert.SerializeObject(Model.CurrencyFullFrom))
+        console.log(currencyFullFrom)
+        getBaseCurrencyRates()
+        $("#fromCurrencyInput").keypress(function (event) {
+            let keyCode = event.keyCode;
+
+
+            if (keyCode == 46) {
+                let inputValue = $("#fromCurrencyInput").val();
+                if (inputValue.includes('.')) {
+                    event.preventDefault();
+                }
+            }
+            else if (!(keyCode >= 48 && keyCode <= 57)) {
+                event.preventDefault();
+            }
+        })
+     })
+    </script>
+}
